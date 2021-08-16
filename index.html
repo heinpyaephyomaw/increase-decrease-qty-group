@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .amount_qty {
+      max-width: 3rem;
+      margin: 0;
+      padding: 7px 0;
+      text-align: center;
+      border-top: 1px solid grey;
+      border-left: 1px solid grey;
+      border-bottom: 1px solid grey;
+      border-right: 0;
+      height: 14px;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .amount_qty:focus-visible {
+      outline: none;
+    }
+
+    .quantity_selectors_container {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0;
+      padding: 0
+    }
+
+    .quantity_selectors {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    .quantity_selectors button {
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+      border-radius: 0;
+      border: 1px solid grey;
+      background-color: #fff;
+      color: grey;
+    }
+
+    .quantity_selectors button:first-child {
+      border-bottom: 0;
+      border-radius: 0 5px 0 0;
+      height: 15px;
+      line-height: 13px;
+    }
+
+    .quantity_selectors button:last-child {
+      border-radius: 0 0 5px 0;
+      height: 15px;
+      line-height: 12px;
+    }
+
+    .quantity_selectors button:hover {
+      cursor: pointer;
+    }
+
+    .quantity_selectors button[disabled="disabled"] {
+      cursor: not-allowed;
+    }
+
+    .quantity_selectors button[disabled="disabled"] span {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+
+    <input data-min="1" data-max="0" type="text" name="quantity" class="amount_qty" value="1" readonly="true" />
+    <div class="quantity_selectors_container">
+      <div class="quantity_selectors">
+        <button type="button" class="increment_quantity" aria-label="Add one" data-direction="1">
+          <span>&#43;</span>
+        </button>
+        <button type="button" class="decrement_quantity" aria-label="Subtract one" data-direction="-1">
+          <span>&#8722;</span>
+        </button>
+      </div>
+    </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(".increment_quantity,.decrement_quantity").on("click", function (ev) {
+      let currentQty = $('input[name="quantity"]').val();
+      let qtyDirection = $(this).data("direction");
+      let newQty = 0;
+
+      if (qtyDirection == "1") {
+        newQty = parseInt(currentQty) + 1;
+      }
+      else if (qtyDirection == "-1") {
+        newQty = parseInt(currentQty) - 1;
+      }
+
+      // make decrement disabled at 1
+      if (newQty == 1) {
+        $(".decrement-quantity").attr("disabled", "disabled");
+      }
+
+      // remove disabled attribute on subtract
+      if (newQty > 1) {
+        $(".decrement-quantity").removeAttr("disabled");
+      }
+
+      if (newQty > 0) {
+        newQty = newQty.toString();
+        $('input[name="quantity"]').val(newQty);
+      }
+      else {
+        $('input[name="quantity"]').val("1");
+      }
+    });
+  </script>
+</body>
+
+</html>
